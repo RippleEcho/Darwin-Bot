@@ -60,15 +60,5 @@ class repbot:
             return xf
         else:
             return yf
-    def reduce(self):
-        a=[]
-        for d in range(6):
-            a.append(0)
-        for i in range(6):
-            for j in range(6):
-                for k in range(6):
-                    a[i]=(a[i]+self.mind[i][j][k])%6
-        return (a)
-                    
-            
+
 

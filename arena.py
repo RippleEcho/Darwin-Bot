@@ -18,7 +18,7 @@ class arena:
             if(g<G-1):
                 B=self.evolve(B,K)
         W=C.index(max(C))
-        print(B[W].sout(B[W].mind))
+        print(B[W].mind)
 
     def genbot(self):
         BMS=""
