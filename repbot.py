@@ -20,7 +20,8 @@ class repbot:
             S=S+str(M[Z][Y][X])
         return S
 
-    def muta(self,M):
+    def muta(self):
+        M=self.mind
         for g in range(6):
             R=random.randint(0,215)
             X,Y,Z=R%6,int(R/6)%6,int(R/36)%6
@@ -51,17 +52,14 @@ class repbot:
                     for c in b:
                         s+=c
             return s%6
+        xf=sum(x)%6
+        yf=sum(y)%6
+        for z in range(6):
+            (xf,yf)=self.foil(xf,yf,z)
+        if(len(x)%2==0):
+            return xf
         else:
-            #xf=(x[-1]-x[-2])%6
-            #yf=(y[-1]-y[-2])%6
-            xf=sum(x)%6
-            yf=sum(y)%6
-            for z in range(6):
-                (xf,yf)=self.foil(xf,yf,z)
-            if(len(x)%2==0):
-                return xf
-            else:
-                return yf
+            return yf
     def reduce(self):
         a=[]
         for d in range(6):

@@ -1,4 +1,3 @@
-from match import match
 from repbot import repbot
 import random
 import math
@@ -11,7 +10,6 @@ class arena:
         C=[]
         for n in range(N):
             B.append(self.genbot())
-            C.append(M)
         for g in range(G):
             C.clear()
             for n in range(N):
@@ -41,11 +39,12 @@ class arena:
             Q+=A[q]
         for h in range(int(len(B)/2)):
             H+=A[h]
+        print(A)
         print("Top sing: " +str(max(C))+" / "+str(sum(C)))
         print("Top quar: " +str(Q)+" / "+str(sum(C)))
         print("Top half: " +str(H)+" / "+str(sum(C)))
         #print(B[W].sout(B[W].mind))
-        print(B[W].reduce())
+        #print(B[W].reduce())
         return C
 
     def evolve(self,B,C):
@@ -58,7 +57,7 @@ class arena:
             C.pop(L)
         W=C.index(max(C))
         for g in range(R):
-            B.append(repbot(B[W].sout(B[W].muta(B[W].mind))))
+            B.append(repbot(B[W].sout(B[W].muta())))
         for f in range(R):
             B.append(self.genbot())
         return B
@@ -78,8 +77,7 @@ class arena:
         S=[]
         for t in range(0,len(F),2):
             u=random.randint(90,110)
-            o=match(F[t][0],F[t+1][0],u)
-            r=o.run()
+            r=self.Match(F[t][0],F[t+1][0],u)
             S.append(r[0])
             S.append(r[1])
         for T in range(len(F)):
@@ -111,5 +109,21 @@ class arena:
                     v=k
             c[d]+=1
         return c
+    def Match(self, A, B, N):
+        AT=0
+        BT=0
+        AM=[]
+        BM=[]
+        while (N>0):
+            N-=1
+            AX=A.work(AM,BM)
+            BX=B.work(BM,AM)
+            if(AX+BX<6):
+                AT+=AX
+                BT+=BX
+            AM.append(AX)
+            BM.append(BX)
+        return(AT,BT)
+      
 a=arena()
-a.setup(32,32,128,256)
+a.setup(32,32,128,64)
