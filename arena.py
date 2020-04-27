@@ -29,8 +29,8 @@ class arena:
 
     def tourn(self,B,C,R):
         for N in range(R):
-            A=self.Round(B,C)
-            C=self.Judge(B,A,sum(C))
+            D=self.Round(B,C)
+            C=self.Judge(B,D,sum(C))
         W=C.index(max(C))
         H,Q=0,0
         A=sorted(C)
@@ -43,6 +43,8 @@ class arena:
         print("Top sing: " +str(max(C))+" / "+str(sum(C)))
         print("Top quar: " +str(Q)+" / "+str(sum(C)))
         print("Top half: " +str(H)+" / "+str(sum(C)))
+        if(max(C)>=sum(C)/2 or A[0] >= A[1]*4):
+            print(B[W].mind)
         #print(B[W].sout(B[W].mind))
         #print(B[W].reduce())
         return C
@@ -51,14 +53,14 @@ class arena:
         #in:bots, bot counts
         #out:new bots
         R=int(len(B)/4)
-        for h in range(2*R):
+        for h in range(R*3):
             L=C.index(min(C))
             B.pop(L)
             C.pop(L)
         W=C.index(max(C))
         for g in range(R):
             B.append(repbot(B[W].sout(B[W].muta())))
-        for f in range(R):
+        for f in range(R*2):
             B.append(self.genbot())
         return B
             
@@ -126,4 +128,4 @@ class arena:
         return(AT,BT)
       
 a=arena()
-a.setup(32,32,128,64)
+a.setup(64,16,128,1024)
