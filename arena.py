@@ -1,11 +1,18 @@
 from repbot import repbot
+from datetime import datetime
 import random
 import math
 class arena:
     def __init__(self):
         self.A=0
 
-    def setup(self,N,M,R,G):
+    def setup(self,N,M,R,G,F):
+        if(F):
+            TS=datetime.now().strftime('%Y-%m-%d')
+            file=open(TS+" Minds.txt" ,"a+")
+            #file.write(TS)
+            #file.write("\n")
+            file.close()
         B=[]
         C=[]
         for n in range(N):
@@ -14,10 +21,19 @@ class arena:
             C.clear()
             for n in range(N):
                C.append(M) 
-            K=self.tourn(B,C,R)
+            K=self.tourn(B,C,R,file)
+            W=K.index(max(K))
+            A=sorted(K)
+            A.reverse()
+            if(max(K)>=sum(K)/2 or A[0] >= A[1]*1.5):
+                #print("writen to file")
+                file=open(TS+" Minds.txt" ,"a+")
+                file.write("Score: "+str(max(K))+" / "+str(sum(K))+"\n")
+                file.write("Gen: "+str(g)+" / "+str(G)+"\n")
+                file.write(str(B[W].mind)+"\n\n")
+                file.close()
             if(g<G-1):
                 B=self.evolve(B,K)
-        W=C.index(max(C))
         print(B[W].mind)
 
     def genbot(self):
@@ -27,7 +43,7 @@ class arena:
             BMS=BMS+str(random.randint(0,5))
         return repbot(BMS)
 
-    def tourn(self,B,C,R):
+    def tourn(self,B,C,R,F):
         for N in range(R):
             D=self.Round(B,C)
             C=self.Judge(B,D,sum(C))
@@ -40,11 +56,9 @@ class arena:
         for h in range(int(len(B)/2)):
             H+=A[h]
         print(A)
-        print("Top sing: " +str(max(C))+" / "+str(sum(C)))
-        print("Top quar: " +str(Q)+" / "+str(sum(C)))
-        print("Top half: " +str(H)+" / "+str(sum(C)))
-        if(max(C)>=sum(C)/2 or A[0] >= A[1]*4):
-            print(B[W].mind)
+        #print("Top sing: " +str(max(C))+" / "+str(sum(C)))
+        #print("Top quar: " +str(Q)+" / "+str(sum(C)))
+        #print("Top half: " +str(H)+" / "+str(sum(C)))
         #print(B[W].sout(B[W].mind))
         #print(B[W].reduce())
         return C
@@ -52,15 +66,15 @@ class arena:
     def evolve(self,B,C):
         #in:bots, bot counts
         #out:new bots
-        R=int(len(B)/4)
-        for h in range(R*3):
+        R=int(len(B)/8)
+        for h in range(R*2):
             L=C.index(min(C))
             B.pop(L)
             C.pop(L)
         W=C.index(max(C))
         for g in range(R):
             B.append(repbot(B[W].sout(B[W].muta())))
-        for f in range(R*2):
+        for f in range(R):
             B.append(self.genbot())
         return B
             
@@ -128,4 +142,4 @@ class arena:
         return(AT,BT)
       
 a=arena()
-a.setup(64,16,128,1024)
+a.setup(64,16,128,1024,True)
